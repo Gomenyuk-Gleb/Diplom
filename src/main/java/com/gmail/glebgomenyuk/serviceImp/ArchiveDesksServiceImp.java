@@ -31,29 +31,34 @@ public class ArchiveDesksServiceImp implements ArchiveDesksService {
 
     @Transactional
     @Override
-    public void returnDesks(String name) {
-        ArchiveDesksEntity archiveDesksEntity = archiveDesksRepository.findByDeskName(name);
-        List<ArchiveTasksEntity> archiveTasksEntity = archiveDesksEntity.getTasksEntities();
-        Set<ClientEntity> clientEntities = archiveDesksEntity.getClients();
-        DeskEntity deskEntity = archiveDesksEntity.toArchDesk();
-        List<TasksEntity> tasksEntities = deskEntity.getTasksEntities();
+    public void returnDesks(Long deskId, String clientEmail) {
 
-        clientEntities.forEach(x->{
-            x.getDesk().add(deskEntity);
-            x.getDeskArch().remove(archiveDesksEntity);
-        });
+        if (archiveDesksRepository.findByIdDesk(deskId) == null || !archiveDesksRepository.findByIdDesk(deskId).getClients().contains(clientRepository.findByEmail(clientEmail))) {
+            throw new EntityExistsException("Not found desk. Error");
+        } else {
 
-        archiveTasksEntity.forEach(x->{
-            tasksEntities.add(x.fromArch());
-        });
+            ArchiveDesksEntity archiveDesksEntity = archiveDesksRepository.findByIdDesk(deskId);
+            List<ArchiveTasksEntity> archiveTasksEntity = archiveDesksEntity.getTasksEntities();
+            Set<ClientEntity> clientEntities = archiveDesksEntity.getClients();
+            DeskEntity deskEntity = archiveDesksEntity.toArchDesk();
+            List<TasksEntity> tasksEntities = deskEntity.getTasksEntities();
 
-        tasksEntities.forEach(x->{
-            x.setDeskEntity(deskEntity);
-        });
+            clientEntities.forEach(x -> {
+                x.getDesk().add(deskEntity);
+                x.getDeskArch().remove(archiveDesksEntity);
+            });
 
+            archiveTasksEntity.forEach(x -> {
+                tasksEntities.add(x.fromArch());
+            });
 
-        deskRepository.save(deskEntity);
-        archiveDesksRepository.delete(archiveDesksEntity);
+            tasksEntities.forEach(x -> {
+                x.setDeskEntity(deskEntity);
+            });
+
+            deskRepository.save(deskEntity);
+            archiveDesksRepository.delete(archiveDesksEntity);
+        }
     }
 
     @Transactional
@@ -62,9 +67,7 @@ public class ArchiveDesksServiceImp implements ArchiveDesksService {
 
         if (archiveDesksRepository.findByIdDesk(deskId) == null || !archiveDesksRepository.findByIdDesk(deskId).getClients().contains(clientRepository.findByEmail(email))) {
             throw new EntityExistsException("Not found desk. Error");
-        }
-
-        else {
+        } else {
             ArchiveDesksEntity archiveDesksEntity = archiveDesksRepository.findByIdDesk(deskId);
             Set<ClientEntity> clientEntities = archiveDesksEntity.getClients();
             clientEntities.forEach(x -> {
@@ -83,7 +86,7 @@ public class ArchiveDesksServiceImp implements ArchiveDesksService {
         List<ArchiveDesksDTO> archiveDesksEntities = new ArrayList<>();
 
         List<ArchiveDesksEntity> archiveDesksDTOS = archiveDesksRepository.findByClientsEmail(email, pageable);
-        archiveDesksDTOS.forEach(x->{
+        archiveDesksDTOS.forEach(x -> {
             archiveDesksEntities.add(x.toDTO());
         });
 

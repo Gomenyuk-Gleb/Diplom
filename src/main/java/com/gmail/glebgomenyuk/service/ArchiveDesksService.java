@@ -11,14 +11,14 @@ import java.util.List;
 
 public interface ArchiveDesksService {
 
-    public void returnDesks(String name);
+    public void returnDesks(Long deskId, String clientEmail);
 
-    public void delDesks(Long deskId, String email);
+    public void delDesks(Long deskId, String clientEmail);
 
    // public List<ArchiveDesksDTO> findAll();
 
-    public Long countArchDesks(String emailC);
+    public Long countArchDesks(String clientEmail);
 
-    List<ArchiveDesksDTO> findByClientsEmail(String email, Pageable pageable);
+    List<ArchiveDesksDTO> findByClientsEmail(String clientEmail, Pageable pageable);
 
 }

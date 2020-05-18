@@ -44,7 +44,7 @@ public class ArchiveDesksEntity {
 
 
     public ArchiveDesksDTO toDTO(){
-        return  ArchiveDesksDTO.of(this.deskName);
+        return  ArchiveDesksDTO.of(this.deskName, this.id);
     }
 
 

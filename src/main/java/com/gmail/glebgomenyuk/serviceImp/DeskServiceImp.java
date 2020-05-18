@@ -79,7 +79,7 @@ public class DeskServiceImp implements DeskService {
 
             tasksEntities.forEach(x -> { archiveTasksEntities.add(x.toArch()); });
 
-            tasksEntities.forEach(x -> { deskDel.getTasksEntities().remove(x); });
+            //tasksEntities.forEach(x -> { deskDel.getTasksEntities().remove(x); });
 
             archiveTasksEntities.forEach(x -> { x.setDeskEntityArch(archiveDesksEntity); });
 

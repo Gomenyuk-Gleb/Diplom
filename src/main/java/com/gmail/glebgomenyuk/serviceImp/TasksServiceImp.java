@@ -37,14 +37,15 @@ public class TasksServiceImp implements TasksService {
 
     @Transactional
     @Override
-    public List<TasksDTO> findAllTasksByDesks(String deskID, String clientEmail, Pageable pageable) {
+    public List<TasksDTO> findAllTasksByDesks(Long deskID, String clientEmail, Pageable pageable) {
 
-        if (!clientRepository.findByEmail(clientEmail).getDesk().contains(deskRepository.findByDeskName(deskID))) {
+        if (!clientRepository.findByEmail(clientEmail).getDesk().contains(deskRepository.findByIdDesk(deskID))) {
 
             throw new EntityExistsException("User dont have this desk");
 
         } else {
-            DeskEntity deskEntity = deskRepository.findByDeskName(deskID);
+
+            DeskEntity deskEntity = deskRepository.findByIdDesk(deskID);
 
             List<TasksEntity> tasksEntities = tasksRepository.findAllByDeskEntity(deskEntity, pageable);
 
@@ -53,6 +54,7 @@ public class TasksServiceImp implements TasksService {
                 tasksDTO.add(x.toDTO());
             });
             return tasksDTO;
+
         }
     }
 
@@ -74,23 +76,7 @@ public class TasksServiceImp implements TasksService {
         return tasksRepository.save(tasksEntityUpdate);
     }
 
-    @Transactional
-    @Override
-    public void delete(String name) {
-        if (load(name) == null) {
-            throw new EntityExistsException("Failed to save, course already exists, id:" + name);
-        }
-        tasksRepository.deleteByTaskName(name);
-    }
 
-    @Transactional
-    @Override
-    public TasksEntity save(TasksEntity tasksEntity) {
-        if (load(tasksEntity.getTaskName()) != null) {
-            throw new EntityExistsException("User already exists" + tasksEntity.getTaskName());
-        }
-        return tasksRepository.save(tasksEntity);
-    }
 
     @Transactional
     @Override
@@ -112,7 +98,7 @@ public class TasksServiceImp implements TasksService {
 
     @Transactional
     @Override
-    public void delTask(Long deskID, Long taskId,  String clientEmail) {
+    public void delTask(Long deskID, Long taskId, String clientEmail) {
 
         if (!clientRepository.findByEmail(clientEmail).getDesk().contains(deskRepository.findByIdDesk(deskID))) {
 
@@ -159,8 +145,8 @@ public class TasksServiceImp implements TasksService {
 
             DeskEntity deskEntity = deskRepository.findByIdDesk(deskID);
             List<TasksEntity> tasksEntities = deskEntity.getTasksEntities();
-            Long size =   (long)      tasksEntities.size();
-            
+            Long size = (long) tasksEntities.size();
+
             return size;
         }
     }

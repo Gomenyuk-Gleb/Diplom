@@ -1,6 +1,5 @@
 package com.gmail.glebgomenyuk.controller;
 
-import com.gmail.glebgomenyuk.dao.model.enumforentity.StatusTasksEnum;
 import com.gmail.glebgomenyuk.dao.repository.ClientRepository;
 import com.gmail.glebgomenyuk.dto.PageCountDTO;
 import com.gmail.glebgomenyuk.dto.TasksDTO;
@@ -14,9 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RequestMapping("/tasks")
@@ -31,7 +28,7 @@ public class TasksController {
     @Autowired
     ClientRepository clientRepository;
 
-    @GetMapping("count")
+    @GetMapping("/{desks}/count")
     public PageCountDTO countTasksByDesk(@PathVariable(value = "desks") Long desksId) {
 
         String clientEmail = "gomenyukgleb@gmail.com";
@@ -40,14 +37,15 @@ public class TasksController {
     }
 
     @GetMapping
-    public List<TasksDTO> getAllTasksByDesk(@RequestParam(value = "desks") String desksId, @RequestParam(name = "page", required = false, defaultValue = "0") Integer pageCount) {
+    public List<TasksDTO> getAllTasksByDesk(@RequestParam(value = "desks") Long desksId, @RequestParam(name = "page", required = false, defaultValue = "0") Integer pageCount) {
 
         String clientEmail = "gomenyukgleb@gmail.com";
+
         return tasksService.findAllTasksByDesks(desksId, clientEmail, PageRequest.of(pageCount, COUNT_TASKS, Sort.Direction.DESC, "id"));
     }
 
     @PostMapping
-    public ResponseEntity<ResultDTO> addDesk(@RequestBody TasksDTO tasksDTO, @PathVariable(value = "desks") Long idDesk) {
+    public ResponseEntity<ResultDTO> addDesk(@RequestBody TasksDTO tasksDTO, @RequestParam(name = "desks") Long idDesk) {
 
         String clientEmail = "gomenyukgleb@gmail.com";
 
@@ -57,7 +55,7 @@ public class TasksController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ResultDTO> delDesk(@PathVariable(value = "desks") Long desksId, @RequestParam (name = "task") Long idTask) {
+    public ResponseEntity<ResultDTO> delDesk(@RequestParam(name = "desks") Long desksId, @RequestParam (name = "task") Long idTask) {
 
         String clientEmail = "gomenyukgleb@gmail.com";
 
@@ -67,14 +65,13 @@ public class TasksController {
     }
 
     @PutMapping
-    public ResponseEntity<ResultDTO> setStatys(@PathVariable(value = "desks") Long desksId, @RequestBody TasksDTO tasksDTO) {
+    public ResponseEntity<ResultDTO> setStatys(@RequestParam(name = "desks") Long desksId, @RequestBody TasksDTO tasksDTO) {
 
         String clientEmail = "gomenyukgleb@gmail.com";
 
         tasksService.setStatus(tasksDTO, desksId, clientEmail);
 
         return new ResponseEntity<>(new SuccessResult(), HttpStatus.OK);
-
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

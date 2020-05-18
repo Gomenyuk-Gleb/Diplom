@@ -40,7 +40,7 @@ public class ArchiveTasksEntity {
     public static ArchiveTasksEntity fromDTO(ArchiveTasksDTO archiveTasksEntity){ return new ArchiveTasksEntity(archiveTasksEntity.getName()); }
 
     public ArchiveTasksDTO toDTO(){
-        return  ArchiveTasksDTO.of(this.getTaskName());
+        return  ArchiveTasksDTO.of(this.getTaskName(), this.id);
     }
 
 

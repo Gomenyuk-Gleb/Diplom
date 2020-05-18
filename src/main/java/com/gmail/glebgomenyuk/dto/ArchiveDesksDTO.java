@@ -10,14 +10,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ArchiveDesksDTO {
-    private String name;
 
-    public ArchiveDesksDTO(String name) {
+    private String name;
+    private Long id;
+
+    public ArchiveDesksDTO(String name, Long id) {
         this.name = name;
+        this.id = id;
     }
 
-    public static ArchiveDesksDTO of(String name){
-        return new ArchiveDesksDTO(name);
+    public static ArchiveDesksDTO of(String name, Long id){
+        return new ArchiveDesksDTO(name, id);
     }
 
     @Override

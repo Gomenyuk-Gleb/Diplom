@@ -11,13 +11,15 @@ import lombok.Setter;
 @Setter
 public class ArchiveTasksDTO {
     private String name;
+    private Long id;
 
-    public ArchiveTasksDTO(String name) {
+    public ArchiveTasksDTO(String name, Long id) {
         this.name = name;
+        this.id = id;
     }
 
-    public static ArchiveTasksDTO of(String name){
-        return new ArchiveTasksDTO(name);
+    public static ArchiveTasksDTO of(String name, Long id){
+        return new ArchiveTasksDTO(name, id);
     }
 
     @Override
