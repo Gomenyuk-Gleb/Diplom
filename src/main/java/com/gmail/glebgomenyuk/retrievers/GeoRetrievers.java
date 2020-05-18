@@ -1,4 +1,4 @@
-package com.gmail.glebgomenyuk.retrivers;
+package com.gmail.glebgomenyuk.retrievers;
 
 import com.gmail.glebgomenyuk.dto.AdminTableDTO;
 import org.springframework.http.ResponseEntity;

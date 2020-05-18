@@ -3,7 +3,7 @@ package com.gmail.glebgomenyuk.controller;
 import com.gmail.glebgomenyuk.dto.AdminTableDTO;
 import com.gmail.glebgomenyuk.dto.ClientDTO;
 import com.gmail.glebgomenyuk.dto.DeskDTO;
-import com.gmail.glebgomenyuk.retrivers.GeoRetrievers;
+import com.gmail.glebgomenyuk.retrievers.GeoRetrievers;
 import com.gmail.glebgomenyuk.service.AdminTableService;
 import com.gmail.glebgomenyuk.service.ClientService;
 import com.gmail.glebgomenyuk.service.DeskService;
