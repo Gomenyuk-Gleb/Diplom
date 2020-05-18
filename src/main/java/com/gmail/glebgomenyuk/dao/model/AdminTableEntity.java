@@ -1,5 +1,6 @@
 package com.gmail.glebgomenyuk.dao.model;
 
+import com.gmail.glebgomenyuk.dto.AdminTableDTO;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
@@ -26,6 +27,18 @@ public class AdminTableEntity {
         this.city = city;
         this.region = region;
         this.country = country;
+    }
+
+    public static AdminTableEntity of(String ip, String city, String region, String country){
+        return new AdminTableEntity(ip, city, region, country);
+    }
+
+    public AdminTableDTO toDTO() {
+        return AdminTableDTO.of(ip, city, region, country);
+    }
+
+    public static AdminTableEntity fromDTO(AdminTableDTO dto) {
+        return  AdminTableEntity.of(dto.getIp(), dto.getCity(), dto.getRegion(), dto.getCountry());
     }
 
 }
