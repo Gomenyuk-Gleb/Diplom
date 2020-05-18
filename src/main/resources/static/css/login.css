@@ -1,0 +1,38 @@
+body {
+    background-image: url(1.jpg);
+    padding-top: 5rem;
+}
+.starter-template{
+    margin: 20%;
+    text-align: center;
+}
+#starter-template-google {
+
+    border-radius: 60px;
+    background-color: red;
+    color: white;
+    width: 100px;
+    height: 100px;
+}
+
+#starter-template-facebook {
+    margin-bottom: -10px;
+    margin: 10%;
+    margin-left: 400px;
+    margin-bottom: -100px;
+    border-radius: 60px;
+    margin-right: 40px;
+    background-color: blue;
+    color: white;
+    width: 100px;
+    height: 100px;
+}
+
+
+
+#video{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
