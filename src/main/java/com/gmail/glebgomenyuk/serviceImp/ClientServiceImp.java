@@ -72,7 +72,7 @@ public class ClientServiceImp implements ClientService {
     @Override
     public void save(ClientEntity clientEntity, List<DeskEntity> deskEntities, List<TasksEntity> tasksEntities) {
         if (clientRepository.existsByEmail(clientEntity.getEmail()))
-            return; // do nothing
+            return;
 
         tasksEntities.forEach(x -> {
             deskEntities.get(0).getTasksEntities().add(x);
@@ -92,9 +92,4 @@ public class ClientServiceImp implements ClientService {
         clientRepository.save(clientEntity);
     }
 
-    @Override
-    public ClientDTO findByEmail(String email) {
-
-        return clientRepository.findByEmail(email).toClienDTO();
-    }
 }

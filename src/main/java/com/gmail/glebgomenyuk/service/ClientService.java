@@ -21,6 +21,4 @@ public interface ClientService {
 
         public void save(ClientEntity clientEntity, List<DeskEntity> deskEntities, List<TasksEntity> tasksEntities);
 
-        public ClientDTO findByEmail(String email);
-
 }
